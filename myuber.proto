@@ -1,0 +1,105 @@
+// Specify that this file uses Protocol Buffers version 3 syntax
+syntax = "proto3";
+
+// Define the package name for this proto file
+package myuber;
+
+// Define the RideSharing service with its RPC methods
+service RideSharing {
+  // Request a new ride
+  rpc RequestRide (RideRequest) returns (RideResponse) {}
+  // Get the status of an existing ride
+  rpc GetRideStatus (RideStatusRequest) returns (RideStatusResponse) {}
+  // Allow a driver to accept a ride
+  rpc AcceptRide (AcceptRideRequest) returns (AcceptRideResponse) {}
+  // Allow a driver to reject a ride
+  rpc RejectRide (RejectRideRequest) returns (RejectRideResponse) {}
+  // Mark a ride as completed
+  rpc CompleteRide (RideCompletionRequest) returns (RideCompletionResponse) {}
+  // Register a new driver
+  rpc RegisterDriver (DriverRegistrationRequest) returns (DriverRegistrationResponse) {}
+  // Check if a driver has been assigned a ride
+  rpc CheckForRide (CheckRideRequest) returns (CheckRideResponse) {}
+}
+
+// Message for requesting a ride
+message RideRequest {
+  string rider_id = 1;  // Unique identifier for the rider
+}
+
+// Response message for a ride request
+message RideResponse {
+  string ride_id = 1;   // Unique identifier for the ride
+  string status = 2;    // Current status of the ride
+  string driver_id = 3; // Identifier of the assigned driver (if any)
+}
+
+// Message for requesting the status of a ride
+message RideStatusRequest {
+  string ride_id = 1;   // Identifier of the ride to check
+}
+
+// Response message for a ride status request
+message RideStatusResponse {
+  string ride_id = 1;   // Identifier of the ride
+  string status = 2;    // Current status of the ride
+  string driver_id = 3; // Identifier of the assigned driver (if any)
+}
+
+// Message for a driver accepting a ride
+message AcceptRideRequest {
+  string ride_id = 1;   // Identifier of the ride to accept
+  string driver_id = 2; // Identifier of the driver accepting the ride
+}
+
+// Response message for accepting a ride
+message AcceptRideResponse {
+  bool success = 1;     // Whether the acceptance was successful
+  string message = 2;   // Additional information about the acceptance
+}
+
+// Message for a driver rejecting a ride
+message RejectRideRequest {
+  string ride_id = 1;   // Identifier of the ride to reject
+  string driver_id = 2; // Identifier of the driver rejecting the ride
+}
+
+// Response message for rejecting a ride
+message RejectRideResponse {
+  bool success = 1;     // Whether the rejection was successful
+  string message = 2;   // Additional information about the rejection
+}
+
+// Message for completing a ride
+message RideCompletionRequest {
+  string ride_id = 1;   // Identifier of the ride to complete
+  string driver_id = 2; // Identifier of the driver completing the ride
+}
+
+// Response message for completing a ride
+message RideCompletionResponse {
+  bool success = 1;     // Whether the completion was successful
+  string message = 2;   // Additional information about the completion
+}
+
+// Message for registering a new driver
+message DriverRegistrationRequest {
+  string driver_id = 1; // Unique identifier for the driver
+}
+
+// Response message for driver registration
+message DriverRegistrationResponse {
+  bool success = 1;     // Whether the registration was successful
+  string message = 2;   // Additional information about the registration
+}
+
+// Message for checking if a driver has been assigned a ride
+message CheckRideRequest {
+  string driver_id = 1; // Identifier of the driver to check
+}
+
+// Response message for checking ride assignment
+message CheckRideResponse {
+  bool has_ride = 1;    // Whether the driver has been assigned a ride
+  string ride_id = 2;   // Identifier of the assigned ride (if any)
+}
